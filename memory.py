@@ -16,7 +16,7 @@ from freegames import path
 
 car = path("car.gif")
 tiles = list(range(32)) * 2
-state = {"mark": None}
+state = {"mark": None, "intentos": 0}
 hide = [True] * 64
 
 
@@ -47,6 +47,7 @@ def tap(x, y):
     """Update mark and hidden tiles based on tap."""
     spot = index(x, y)
     mark = state["mark"]
+    state["intentos"] += 1
 
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
         state["mark"] = spot
@@ -76,6 +77,11 @@ def draw():
         goto(x + 22, y + 20)
         color("black")
         write(tiles[mark], font=("Arial", 30, "normal"))
+
+    up()
+    goto(-195, 210)
+    color("black")
+    write(f"Intentos: {state['intentos']}", font=("Arial", 80, "normal"))
 
     update()
     ontimer(draw, 100)
